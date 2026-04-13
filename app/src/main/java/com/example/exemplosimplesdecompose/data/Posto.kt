@@ -16,6 +16,4 @@ data class Posto(
         latitude = coordenadas.latitude,
         longitude = coordenadas.longitude
     )
-
-    constructor(nome: String) : this(nome = nome)
 }

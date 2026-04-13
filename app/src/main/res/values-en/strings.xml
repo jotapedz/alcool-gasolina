@@ -2,6 +2,7 @@
     <string name="app_name">Alcohol or Gasoline</string>
     <string name="welcome_title">Welcome to the Alcohol or Gasoline app</string>
     <string name="welcome_image">Welcome image</string>
+    <string name="hello_name">Hello, %1$s!</string>
     <string name="start_app">Start</string>
     <string name="register_station">Register station</string>
     <string name="station_name">Station name</string>

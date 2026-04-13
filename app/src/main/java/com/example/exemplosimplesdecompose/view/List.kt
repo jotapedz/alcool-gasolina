@@ -28,7 +28,7 @@ fun ListaDePostos(navController: NavHostController, nomeDoPosto: String) {
     val context= LocalContext.current
     val postoSP = Posto("Posto SP", Coordenadas(41.40338, 2.17403))
     val postoNY = Posto("Posto em NY", Coordenadas(40.7128, -74.0060))
-    val postoN= Posto("$nomeDoPosto")
+    val postoN = Posto(nome = nomeDoPosto)
     val postos = listOf(
         "$nomeDoPosto",
         "Outro posto",

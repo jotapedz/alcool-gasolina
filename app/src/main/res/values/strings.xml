@@ -32,4 +32,6 @@
     <string name="best_option">Melhor abastecer com %1$s.</string>
     <string name="location_updated">Localização atualizada.</string>
     <string name="location_unavailable">Não foi possível obter a localização atual.</string>
+    <string name="location_permission_required">Permissão de localização negada.</string>
+    <string name="location_permission_required_to_save">Permita a localização para salvar o posto com coordenadas.</string>
 </resources>

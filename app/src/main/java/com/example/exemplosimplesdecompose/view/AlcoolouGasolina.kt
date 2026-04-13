@@ -38,6 +38,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,11 +46,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardOptions
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavHostController
 import com.example.exemplosimplesdecompose.R
 import com.example.exemplosimplesdecompose.data.Coordenadas
@@ -67,6 +71,7 @@ fun AlcoolGasolinaPreco(
     repository: FuelPreferencesRepository
 ) {
     val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
     var nomeDoPosto by remember { mutableStateOf("") }
     var alcool by remember { mutableStateOf("") }
     var gasolina by remember { mutableStateOf("") }
@@ -79,28 +84,46 @@ fun AlcoolGasolinaPreco(
         contract = ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
         val granted = permissions.values.any { it }
-        if (granted && pendingSave) {
-            savePosto(
-                context = context,
-                repository = repository,
-                nomeDoPosto = nomeDoPosto,
-                alcool = alcool,
-                gasolina = gasolina,
-                onSuccess = {
-                    feedback = context.getString(R.string.station_saved)
-                    nomeDoPosto = ""
-                    alcool = ""
-                    gasolina = ""
-                    postos = repository.getPostos()
-                },
-                onError = { feedback = it }
-            )
+        if (pendingSave) {
+            if (granted) {
+                savePosto(
+                    context = context,
+                    repository = repository,
+                    nomeDoPosto = nomeDoPosto,
+                    alcool = alcool,
+                    gasolina = gasolina,
+                    onSuccess = {
+                        feedback = context.getString(R.string.station_saved)
+                        nomeDoPosto = ""
+                        alcool = ""
+                        gasolina = ""
+                        postos = repository.getPostos()
+                    },
+                    onError = { feedback = it }
+                )
+            } else {
+                feedback = context.getString(R.string.location_permission_required_to_save)
+            }
         }
         pendingSave = false
     }
 
     LaunchedEffect(checkedState) {
         repository.saveSelectedFuel(checkedState)
+    }
+
+    DisposableEffect(lifecycleOwner, repository) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                postos = repository.getPostos()
+                checkedState = repository.isAlcoholSelected()
+            }
+        }
+
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
     }
 
     Scaffold(
@@ -286,14 +309,18 @@ fun PostoDetailView(
         contract = ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
         val granted = permissions.values.any { it }
-        if (granted && pendingLocationUpdate) {
-            val location = resolveCurrentLocation(context)
-            latitude = location?.latitude
-            longitude = location?.longitude
-            feedback = if (location != null) {
-                context.getString(R.string.location_updated)
+        if (pendingLocationUpdate) {
+            if (granted) {
+                val location = resolveCurrentLocation(context)
+                latitude = location?.latitude
+                longitude = location?.longitude
+                feedback = if (location != null) {
+                    context.getString(R.string.location_updated)
+                } else {
+                    context.getString(R.string.location_unavailable)
+                }
             } else {
-                context.getString(R.string.location_unavailable)
+                feedback = context.getString(R.string.location_permission_required)
             }
         }
         pendingLocationUpdate = false

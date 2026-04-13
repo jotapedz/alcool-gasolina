@@ -32,4 +32,6 @@
     <string name="best_option">Best option: %1$s.</string>
     <string name="location_updated">Location updated.</string>
     <string name="location_unavailable">Could not get the current location.</string>
+    <string name="location_permission_required">Location permission denied.</string>
+    <string name="location_permission_required_to_save">Allow location access to save the station with coordinates.</string>
 </resources>

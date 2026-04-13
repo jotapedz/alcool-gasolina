@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Alcohol or Gasoline</string>
+    <string name="welcome_title">Welcome to the Alcohol or Gasoline app</string>
+    <string name="welcome_image">Welcome image</string>
+    <string name="start_app">Start</string>
+    <string name="register_station">Register station</string>
+    <string name="station_name">Station name</string>
+    <string name="alcohol_price">Alcohol price</string>
+    <string name="gasoline_price">Gasoline price</string>
+    <string name="selected_fuel">Selected fuel: %1$s</string>
+    <string name="alcohol">Alcohol</string>
+    <string name="gasoline">Gasoline</string>
+    <string name="calculate">Calculate</string>
+    <string name="save_station">Save station</string>
+    <string name="saved_stations">Saved stations</string>
+    <string name="no_stations_saved">No stations saved yet.</string>
+    <string name="station_saved">Station saved successfully.</string>
+    <string name="station_updated">Station updated successfully.</string>
+    <string name="update_station">Update station</string>
+    <string name="delete_station">Delete station</string>
+    <string name="update_location">Update location</string>
+    <string name="open_map">Open map</string>
+    <string name="station_details">Station details</string>
+    <string name="station_not_found">Station not found.</string>
+    <string name="back">Back</string>
+    <string name="saved_at">Information date: %1$s</string>
+    <string name="location_label">Location: %1$s</string>
+    <string name="alcohol_value">Alcohol: %1$s</string>
+    <string name="gasoline_value">Gasoline: %1$s</string>
+    <string name="station_name_required">Enter the station name.</string>
+    <string name="invalid_prices">Enter valid alcohol and gasoline prices.</string>
+    <string name="best_option">Best option: %1$s.</string>
+    <string name="location_updated">Location updated.</string>
+    <string name="location_unavailable">Could not get the current location.</string>
+</resources>

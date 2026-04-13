@@ -1,0 +1,559 @@
+package com.example.exemplosimplesdecompose.view
+
+import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.weight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
+import androidx.navigation.NavHostController
+import com.example.exemplosimplesdecompose.R
+import com.example.exemplosimplesdecompose.data.Coordenadas
+import com.example.exemplosimplesdecompose.data.FuelPreferencesRepository
+import com.example.exemplosimplesdecompose.data.Posto
+import java.text.DateFormat
+import java.text.NumberFormat
+import java.util.Date
+import java.util.Locale
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AlcoolGasolinaPreco(
+    navController: NavHostController,
+    repository: FuelPreferencesRepository
+) {
+    val context = LocalContext.current
+    var nomeDoPosto by remember { mutableStateOf("") }
+    var alcool by remember { mutableStateOf("") }
+    var gasolina by remember { mutableStateOf("") }
+    var checkedState by remember { mutableStateOf(repository.isAlcoholSelected()) }
+    var feedback by remember { mutableStateOf<String?>(null) }
+    var postos by remember { mutableStateOf(repository.getPostos()) }
+    var pendingSave by remember { mutableStateOf(false) }
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        val granted = permissions.values.any { it }
+        if (granted && pendingSave) {
+            savePosto(
+                context = context,
+                repository = repository,
+                nomeDoPosto = nomeDoPosto,
+                alcool = alcool,
+                gasolina = gasolina,
+                onSuccess = {
+                    feedback = context.getString(R.string.station_saved)
+                    nomeDoPosto = ""
+                    alcool = ""
+                    gasolina = ""
+                    postos = repository.getPostos()
+                },
+                onError = { feedback = it }
+            )
+        }
+        pendingSave = false
+    }
+
+    LaunchedEffect(checkedState) {
+        repository.saveSelectedFuel(checkedState)
+    }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(title = { Text(stringResource(R.string.app_name)) })
+        }
+    ) { innerPadding ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            item {
+                Text(
+                    text = stringResource(R.string.register_station),
+                    style = MaterialTheme.typography.titleLarge
+                )
+            }
+
+            item {
+                OutlinedTextField(
+                    value = nomeDoPosto,
+                    onValueChange = { nomeDoPosto = it },
+                    label = { Text(stringResource(R.string.station_name)) },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true
+                )
+            }
+
+            item {
+                OutlinedTextField(
+                    value = alcool,
+                    onValueChange = { alcool = sanitizePriceInput(it) },
+                    label = { Text(stringResource(R.string.alcohol_price)) },
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                    singleLine = true
+                )
+            }
+
+            item {
+                OutlinedTextField(
+                    value = gasolina,
+                    onValueChange = { gasolina = sanitizePriceInput(it) },
+                    label = { Text(stringResource(R.string.gasoline_price)) },
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                    singleLine = true
+                )
+            }
+
+            item {
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        text = stringResource(R.string.selected_fuel, if (checkedState) stringResource(R.string.alcohol) else stringResource(R.string.gasoline)),
+                        modifier = Modifier.weight(1f)
+                    )
+                    Switch(
+                        checked = checkedState,
+                        onCheckedChange = { checkedState = it }
+                    )
+                }
+            }
+
+            item {
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Button(
+                        onClick = {
+                            feedback = buildRecommendationMessage(context, alcool, gasolina)
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(stringResource(R.string.calculate))
+                    }
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Button(
+                        onClick = {
+                            if (hasLocationPermission(context)) {
+                                savePosto(
+                                    context = context,
+                                    repository = repository,
+                                    nomeDoPosto = nomeDoPosto,
+                                    alcool = alcool,
+                                    gasolina = gasolina,
+                                    onSuccess = {
+                                        feedback = context.getString(R.string.station_saved)
+                                        nomeDoPosto = ""
+                                        alcool = ""
+                                        gasolina = ""
+                                        postos = repository.getPostos()
+                                    },
+                                    onError = { feedback = it }
+                                )
+                            } else {
+                                pendingSave = true
+                                permissionLauncher.launch(locationPermissions)
+                            }
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(stringResource(R.string.save_station))
+                    }
+                }
+            }
+
+            feedback?.let { message ->
+                item {
+                    Text(
+                        text = message,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+
+            item {
+                Text(
+                    text = stringResource(R.string.saved_stations),
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+
+            if (postos.isEmpty()) {
+                item {
+                    Text(text = stringResource(R.string.no_stations_saved))
+                }
+            } else {
+                items(postos, key = { it.id }) { posto ->
+                    StationCard(
+                        posto = posto,
+                        modifier = Modifier.clickable {
+                            navController.navigate("detail/${Uri.encode(posto.id)}")
+                        }
+                    )
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PostoDetailView(
+    navController: NavHostController,
+    repository: FuelPreferencesRepository,
+    postoId: String
+) {
+    val context = LocalContext.current
+    val posto = remember(postoId) { repository.getPostoById(postoId) }
+
+    if (posto == null) {
+        Scaffold(
+            topBar = { TopAppBar(title = { Text(stringResource(R.string.station_details)) }) }
+        ) { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Text(text = stringResource(R.string.station_not_found))
+                Button(onClick = { navController.popBackStack() }) {
+                    Text(text = stringResource(R.string.back))
+                }
+            }
+        }
+        return
+    }
+
+    var nome by remember(posto.id) { mutableStateOf(posto.nome) }
+    var alcool by remember(posto.id) { mutableStateOf(formatInputPrice(posto.alcool)) }
+    var gasolina by remember(posto.id) { mutableStateOf(formatInputPrice(posto.gasolina)) }
+    var latitude by remember(posto.id) { mutableStateOf(posto.latitude) }
+    var longitude by remember(posto.id) { mutableStateOf(posto.longitude) }
+    var dataInformacaoMillis by remember(posto.id) { mutableStateOf(posto.dataInformacaoMillis) }
+    var feedback by remember { mutableStateOf<String?>(null) }
+    var pendingLocationUpdate by remember { mutableStateOf(false) }
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        val granted = permissions.values.any { it }
+        if (granted && pendingLocationUpdate) {
+            val location = resolveCurrentLocation(context)
+            latitude = location?.latitude
+            longitude = location?.longitude
+            feedback = if (location != null) {
+                context.getString(R.string.location_updated)
+            } else {
+                context.getString(R.string.location_unavailable)
+            }
+        }
+        pendingLocationUpdate = false
+    }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(R.string.station_details)) },
+                navigationIcon = {
+                    TextButton(onClick = { navController.popBackStack() }) {
+                        Text(text = stringResource(R.string.back))
+                    }
+                }
+            )
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            OutlinedTextField(
+                value = nome,
+                onValueChange = { nome = it },
+                label = { Text(stringResource(R.string.station_name)) },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+
+            OutlinedTextField(
+                value = alcool,
+                onValueChange = { alcool = sanitizePriceInput(it) },
+                label = { Text(stringResource(R.string.alcohol_price)) },
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                singleLine = true
+            )
+
+            OutlinedTextField(
+                value = gasolina,
+                onValueChange = { gasolina = sanitizePriceInput(it) },
+                label = { Text(stringResource(R.string.gasoline_price)) },
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                singleLine = true
+            )
+
+            Text(text = stringResource(R.string.saved_at, formatDate(dataInformacaoMillis)))
+            Text(text = stringResource(R.string.location_label, formatCoordinates(latitude, longitude)))
+
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Button(
+                    onClick = {
+                        val alcoolValue = parsePrice(alcool)
+                        val gasolinaValue = parsePrice(gasolina)
+
+                        when {
+                            nome.isBlank() -> feedback = context.getString(R.string.station_name_required)
+                            alcoolValue == null || gasolinaValue == null -> feedback = context.getString(R.string.invalid_prices)
+                            else -> {
+                                dataInformacaoMillis = System.currentTimeMillis()
+                                repository.upsertPosto(
+                                    posto.copy(
+                                        nome = nome.trim(),
+                                        alcool = alcoolValue,
+                                        gasolina = gasolinaValue,
+                                        latitude = latitude,
+                                        longitude = longitude,
+                                        dataInformacaoMillis = dataInformacaoMillis
+                                    )
+                                )
+                                feedback = context.getString(R.string.station_updated)
+                            }
+                        }
+                    },
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(text = stringResource(R.string.update_station))
+                }
+
+                Spacer(modifier = Modifier.width(12.dp))
+
+                Button(
+                    onClick = {
+                        repository.deletePosto(posto.id)
+                        navController.popBackStack()
+                    },
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(text = stringResource(R.string.delete_station))
+                }
+            }
+
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Button(
+                    onClick = {
+                        if (hasLocationPermission(context)) {
+                            val location = resolveCurrentLocation(context)
+                            latitude = location?.latitude
+                            longitude = location?.longitude
+                            feedback = if (location != null) {
+                                context.getString(R.string.location_updated)
+                            } else {
+                                context.getString(R.string.location_unavailable)
+                            }
+                        } else {
+                            pendingLocationUpdate = true
+                            permissionLauncher.launch(locationPermissions)
+                        }
+                    },
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(text = stringResource(R.string.update_location))
+                }
+
+                Spacer(modifier = Modifier.width(12.dp))
+
+                Button(
+                    onClick = { openMap(context, nome, latitude, longitude) },
+                    enabled = latitude != null && longitude != null,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(text = stringResource(R.string.open_map))
+                }
+            }
+
+            feedback?.let {
+                Text(
+                    text = it,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun StationCard(posto: Posto, modifier: Modifier = Modifier) {
+    Card(modifier = modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Text(text = posto.nome, style = MaterialTheme.typography.titleMedium)
+            Text(text = stringResource(R.string.alcohol_value, formatCurrency(posto.alcool)))
+            Text(text = stringResource(R.string.gasoline_value, formatCurrency(posto.gasolina)))
+            Text(text = stringResource(R.string.saved_at, formatDate(posto.dataInformacaoMillis)))
+        }
+    }
+}
+
+private fun savePosto(
+    context: Context,
+    repository: FuelPreferencesRepository,
+    nomeDoPosto: String,
+    alcool: String,
+    gasolina: String,
+    onSuccess: () -> Unit,
+    onError: (String) -> Unit
+) {
+    val alcoolValue = parsePrice(alcool)
+    val gasolinaValue = parsePrice(gasolina)
+
+    when {
+        nomeDoPosto.isBlank() -> onError(context.getString(R.string.station_name_required))
+        alcoolValue == null || gasolinaValue == null -> onError(context.getString(R.string.invalid_prices))
+        else -> {
+            val location = resolveCurrentLocation(context)
+            repository.upsertPosto(
+                Posto(
+                    nome = nomeDoPosto.trim(),
+                    alcool = alcoolValue,
+                    gasolina = gasolinaValue,
+                    latitude = location?.latitude,
+                    longitude = location?.longitude,
+                    dataInformacaoMillis = System.currentTimeMillis()
+                )
+            )
+            onSuccess()
+        }
+    }
+}
+
+private fun buildRecommendationMessage(context: Context, alcool: String, gasolina: String): String {
+    val alcoolValue = parsePrice(alcool)
+    val gasolinaValue = parsePrice(gasolina)
+
+    if (alcoolValue == null || gasolinaValue == null || gasolinaValue == 0.0) {
+        return context.getString(R.string.invalid_prices)
+    }
+
+    val betterFuel = if (alcoolValue / gasolinaValue <= 0.7) {
+        context.getString(R.string.alcohol)
+    } else {
+        context.getString(R.string.gasoline)
+    }
+
+    return context.getString(R.string.best_option, betterFuel)
+}
+
+private fun sanitizePriceInput(input: String): String {
+    return input.filter { it.isDigit() || it == ',' || it == '.' }
+}
+
+private fun parsePrice(input: String): Double? = input.replace(',', '.').toDoubleOrNull()
+
+private fun formatCurrency(value: Double): String {
+    return NumberFormat.getCurrencyInstance(Locale.getDefault()).format(value)
+}
+
+private fun formatInputPrice(value: Double): String = String.format(Locale.US, "%.2f", value)
+
+private fun formatDate(value: Long): String {
+    return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(Date(value))
+}
+
+private fun formatCoordinates(latitude: Double?, longitude: Double?): String {
+    if (latitude == null || longitude == null) return "-"
+    return String.format(Locale.US, "%.5f, %.5f", latitude, longitude)
+}
+
+private fun hasLocationPermission(context: Context): Boolean {
+    return locationPermissions.any { permission ->
+        ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+    }
+}
+
+private fun resolveCurrentLocation(context: Context): Coordenadas? {
+    if (!hasLocationPermission(context)) return null
+
+    val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as? LocationManager ?: return null
+    val providers = locationManager.getProviders(true)
+    val bestLocation = providers
+        .mapNotNull { provider -> runCatching { locationManager.getLastKnownLocation(provider) }.getOrNull() }
+        .maxByOrNull(Location::getTime)
+
+    return bestLocation?.let { Coordenadas(it.latitude, it.longitude) }
+}
+
+private fun openMap(context: Context, nome: String, latitude: Double?, longitude: Double?) {
+    if (latitude == null || longitude == null) return
+
+    val encodedName = Uri.encode(nome)
+    val geoUri = Uri.parse("geo:$latitude,$longitude?q=$latitude,$longitude($encodedName)")
+    val intent = Intent(Intent.ACTION_VIEW, geoUri)
+    val activity = context.findActivity()
+
+    if (intent.resolveActivity(context.packageManager) != null) {
+        activity?.startActivity(intent)
+    }
+}
+
+private fun Context.findActivity(): Activity? = when (this) {
+    is Activity -> this
+    is ContextWrapper -> baseContext.findActivity()
+    else -> null
+}
+
+private val locationPermissions = arrayOf(
+    Manifest.permission.ACCESS_FINE_LOCATION,
+    Manifest.permission.ACCESS_COARSE_LOCATION
+)

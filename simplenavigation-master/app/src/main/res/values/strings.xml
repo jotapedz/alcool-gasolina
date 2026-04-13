@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Álcool ou Gasolina</string>
+    <string name="welcome_title">Bem-vindo ao app Álcool ou Gasolina</string>
+    <string name="welcome_image">Imagem de boas-vindas</string>
+    <string name="start_app">Entrar</string>
+    <string name="register_station">Cadastrar posto</string>
+    <string name="station_name">Nome do posto</string>
+    <string name="alcohol_price">Preço do álcool</string>
+    <string name="gasoline_price">Preço da gasolina</string>
+    <string name="selected_fuel">Combustível selecionado: %1$s</string>
+    <string name="alcohol">Álcool</string>
+    <string name="gasoline">Gasolina</string>
+    <string name="calculate">Calcular</string>
+    <string name="save_station">Salvar posto</string>
+    <string name="saved_stations">Postos salvos</string>
+    <string name="no_stations_saved">Nenhum posto salvo ainda.</string>
+    <string name="station_saved">Posto salvo com sucesso.</string>
+    <string name="station_updated">Posto atualizado com sucesso.</string>
+    <string name="update_station">Atualizar posto</string>
+    <string name="delete_station">Excluir posto</string>
+    <string name="update_location">Atualizar localização</string>
+    <string name="open_map">Abrir mapa</string>
+    <string name="station_details">Detalhes do posto</string>
+    <string name="station_not_found">Posto não encontrado.</string>
+    <string name="back">Voltar</string>
+    <string name="saved_at">Data da informação: %1$s</string>
+    <string name="location_label">Localização: %1$s</string>
+    <string name="alcohol_value">Álcool: %1$s</string>
+    <string name="gasoline_value">Gasolina: %1$s</string>
+    <string name="station_name_required">Informe o nome do posto.</string>
+    <string name="invalid_prices">Informe preços válidos para álcool e gasolina.</string>
+    <string name="best_option">Melhor abastecer com %1$s.</string>
+    <string name="location_updated">Localização atualizada.</string>
+    <string name="location_unavailable">Não foi possível obter a localização atual.</string>
+</resources>

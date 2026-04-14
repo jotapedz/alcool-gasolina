@@ -24,9 +24,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.weight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -48,7 +48,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardOptions
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
@@ -178,10 +177,13 @@ fun AlcoolGasolinaPreco(
             }
 
             item {
-                Row(modifier = Modifier.fillMaxWidth()) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
                     Text(
                         text = stringResource(R.string.selected_fuel, if (checkedState) stringResource(R.string.alcohol) else stringResource(R.string.gasoline)),
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.padding(end = 12.dp)
                     )
                     Switch(
                         checked = checkedState,
@@ -191,16 +193,18 @@ fun AlcoolGasolinaPreco(
             }
 
             item {
-                Row(modifier = Modifier.fillMaxWidth()) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
                     Button(
                         onClick = {
                             feedback = buildRecommendationMessage(context, alcool, gasolina)
                         },
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(stringResource(R.string.calculate))
                     }
-                    Spacer(modifier = Modifier.width(12.dp))
                     Button(
                         onClick = {
                             if (hasLocationPermission(context)) {
@@ -224,7 +228,7 @@ fun AlcoolGasolinaPreco(
                                 permissionLauncher.launch(locationPermissions)
                             }
                         },
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(stringResource(R.string.save_station))
                     }
@@ -375,7 +379,10 @@ fun PostoDetailView(
             Text(text = stringResource(R.string.saved_at, formatDate(dataInformacaoMillis)))
             Text(text = stringResource(R.string.location_label, formatCoordinates(latitude, longitude)))
 
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
                 Button(
                     onClick = {
                         val alcoolValue = parsePrice(alcool)
@@ -400,25 +407,25 @@ fun PostoDetailView(
                             }
                         }
                     },
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = stringResource(R.string.update_station))
                 }
-
-                Spacer(modifier = Modifier.width(12.dp))
-
                 Button(
                     onClick = {
                         repository.deletePosto(posto.id)
                         navController.popBackStack()
                     },
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = stringResource(R.string.delete_station))
                 }
             }
 
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
                 Button(
                     onClick = {
                         if (hasLocationPermission(context)) {
@@ -435,17 +442,14 @@ fun PostoDetailView(
                             permissionLauncher.launch(locationPermissions)
                         }
                     },
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = stringResource(R.string.update_location))
                 }
-
-                Spacer(modifier = Modifier.width(12.dp))
-
                 Button(
                     onClick = { openMap(context, nome, latitude, longitude) },
                     enabled = latitude != null && longitude != null,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = stringResource(R.string.open_map))
                 }

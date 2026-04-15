@@ -23,8 +23,11 @@ Repositório: `https://github.com/jotapedz/alcool-gasolina`
 
 ## Evidências
 Tela Inicial
+
 <img width="243" height="530" alt="image" src="https://github.com/user-attachments/assets/0d5dfcaa-23a7-4940-a110-402edfbe8312" />
+
 Dados do posto e calculo da porcentagem
+
 <img width="238" height="443" alt="image" src="https://github.com/user-attachments/assets/f746e098-5c09-491e-8041-793eccc6a1f1" />
 Tela de calculo de gasolina/alcool
 <img width="250" height="374" alt="image" src="https://github.com/user-attachments/assets/128eded3-3233-46ff-843c-4d98a8580fe7" />

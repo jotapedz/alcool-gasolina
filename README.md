@@ -12,15 +12,6 @@ Repositório: `https://github.com/jotapedz/alcool-gasolina`
 - Exibe lista de postos e tela de detalhes com opção de abrir a localização no mapa.
 - Suporta internacionalização em português e inglês.
 
-## Requisitos Atendidos
-
-- Salvar e restaurar o estado do switch.
-- CRUD de valores de combustível com `SharedPreferences` e JSON.
-- Lista de postos com nome, preços e acesso ao detalhe.
-- Tela de detalhe com edição, exclusão, data da informação e localização.
-- Solicitação de permissão de localização e abertura do mapa por `Intent`.
-- Internacionalização em português e inglês.
-
 ## Evidências
 Tela Inicial
 
@@ -49,13 +40,3 @@ Tela de detalhes do posto
 Após clicar em abrir mapa
 
 <img width="244" height="532" alt="image" src="https://github.com/user-attachments/assets/4332de81-cf19-4222-858e-0de01310962d" />
-
-
-
-
-### Sugestão de telas
-
-- Tela inicial.
-- Formulário com switch salvo/restaurado.
-- Lista de postos cadastrados.
-- Tela de detalhe com data, localização e botão de mapa.

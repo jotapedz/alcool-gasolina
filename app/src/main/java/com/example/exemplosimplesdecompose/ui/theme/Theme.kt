@@ -1,54 +1,59 @@
 package com.example.exemplosimplesdecompose.ui.theme
 
-import android.app.Activity
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
+
+private val ColorError = Color(0xFFB3261E)
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = TealAccent,
+    onPrimary = NightBlue,
+    primaryContainer = PetrolBlue,
+    onPrimaryContainer = Mist,
+    secondary = WarmAmber,
+    onSecondary = NightBlue,
+    secondaryContainer = DeepSurface,
+    onSecondaryContainer = Mist,
+    background = NightBlue,
+    onBackground = Mist,
+    surface = DeepSurface,
+    onSurface = Mist,
+    surfaceVariant = PetrolBlue,
+    onSurfaceVariant = PaleMint,
+    error = ColorError,
+    onError = Mist
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    primary = PetrolBlue,
+    onPrimary = Mist,
+    primaryContainer = PaleMint,
+    onPrimaryContainer = NightBlue,
+    secondary = WarmAmber,
+    onSecondary = NightBlue,
+    secondaryContainer = Color(0xFFFFF0C8),
+    onSecondaryContainer = NightBlue,
+    background = Mist,
+    onBackground = NightBlue,
+    surface = Color(0xFFFFFFFF),
+    onSurface = NightBlue,
+    surfaceVariant = Color(0xFFDCE7EE),
+    onSurfaceVariant = Slate,
+    error = ColorError,
+    onError = Mist
 )
 
 @Composable
 fun ExemploSimplesDeComposeTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
+    val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
 
     MaterialTheme(
         colorScheme = colorScheme,

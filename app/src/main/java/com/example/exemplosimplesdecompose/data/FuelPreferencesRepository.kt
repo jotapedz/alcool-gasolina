@@ -7,10 +7,10 @@ import org.json.JSONObject
 class FuelPreferencesRepository(context: Context) {
     private val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
-    fun isAlcoholSelected(): Boolean = prefs.getBoolean(KEY_SELECTED_FUEL, true)
+    fun useSeventyFivePercent(): Boolean = prefs.getBoolean(KEY_USE_SEVENTY_FIVE_PERCENT, false)
 
-    fun saveSelectedFuel(isAlcohol: Boolean) {
-        prefs.edit().putBoolean(KEY_SELECTED_FUEL, isAlcohol).apply()
+    fun saveUseSeventyFivePercent(useSeventyFivePercent: Boolean) {
+        prefs.edit().putBoolean(KEY_USE_SEVENTY_FIVE_PERCENT, useSeventyFivePercent).apply()
     }
 
     fun getPostos(): List<Posto> {
@@ -78,7 +78,7 @@ class FuelPreferencesRepository(context: Context) {
 
     companion object {
         private const val PREFS_NAME = "alcool_gasolina_prefs"
-        private const val KEY_SELECTED_FUEL = "selected_fuel"
+        private const val KEY_USE_SEVENTY_FIVE_PERCENT = "use_seventy_five_percent"
         private const val KEY_POSTOS = "postos"
     }
 }

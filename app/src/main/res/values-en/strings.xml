@@ -1,19 +1,37 @@
 <resources>
-    <string name="app_name">Alcohol or Gasoline</string>
+    <string name="app_name">Alcohol or Gasoline?</string>
     <string name="welcome_title">Welcome to the Alcohol or Gasoline app</string>
     <string name="welcome_image">Welcome image</string>
     <string name="hello_name">Hello, %1$s!</string>
     <string name="start_app">Start</string>
-    <string name="register_station">Register station</string>
+    <string name="calculator_title">Compare fuel prices in seconds</string>
+    <string name="calculator_subtitle">Enter the prices, choose the comparison rule, and see which option is more cost-effective.</string>
+    <string name="extended_home_subtitle">Calculate the best option, save stations locally, and open the details whenever you want to compare again.</string>
     <string name="station_name">Station name</string>
+    <string name="station_name_optional">Station name (optional)</string>
     <string name="alcohol_price">Alcohol price</string>
     <string name="gasoline_price">Gasoline price</string>
-    <string name="selected_fuel">Selected fuel: %1$s</string>
+    <string name="comparison_rule_title">Comparison rule</string>
+    <string name="comparison_rule_body" formatted="false">Use the switch to alternate between the 70% and 75% rules.</string>
+    <string name="rule_seventy" formatted="false">70%</string>
+    <string name="rule_seventy_five" formatted="false">75%</string>
+    <string name="current_rule_description">The selected value is saved for the next time the app opens.</string>
+    <string name="calculate">Calculate</string>
+    <string name="clear_fields">Clear</string>
+    <string name="invalid_prices">Enter valid alcohol and gasoline prices.</string>
+    <string name="best_option">Best option: %1$s.</string>
+    <string name="best_option_for_station">At %2$s, the best option is %1$s.</string>
+    <string name="calculation_result_title">Result</string>
+    <string name="result_ratio_summary">The price ratio was %1$s and the selected rule was %2$s.</string>
     <string name="alcohol">Alcohol</string>
     <string name="gasoline">Gasoline</string>
-    <string name="calculate">Calculate</string>
+    <string name="alcohol_value">Alcohol: %1$s</string>
+    <string name="gasoline_value">Gasoline: %1$s</string>
+    <string name="register_station">Register station</string>
     <string name="save_station">Save station</string>
     <string name="saved_stations">Saved stations</string>
+    <string name="saved_stations_help">Tap a station to open its details, edit the values, delete the record, or open the location on the map.</string>
+    <string name="station_card_best_option">Best option with the current rule: %1$s.</string>
     <string name="no_stations_saved">No stations saved yet.</string>
     <string name="station_saved">Station saved successfully.</string>
     <string name="station_updated">Station updated successfully.</string>
@@ -21,16 +39,13 @@
     <string name="delete_station">Delete station</string>
     <string name="update_location">Update location</string>
     <string name="open_map">Open map</string>
+    <string name="map_unavailable">No map application was found.</string>
     <string name="station_details">Station details</string>
     <string name="station_not_found">Station not found.</string>
     <string name="back">Back</string>
     <string name="saved_at">Information date: %1$s</string>
     <string name="location_label">Location: %1$s</string>
-    <string name="alcohol_value">Alcohol: %1$s</string>
-    <string name="gasoline_value">Gasoline: %1$s</string>
     <string name="station_name_required">Enter the station name.</string>
-    <string name="invalid_prices">Enter valid alcohol and gasoline prices.</string>
-    <string name="best_option">Best option: %1$s.</string>
     <string name="location_updated">Location updated.</string>
     <string name="location_unavailable">Could not get the current location.</string>
     <string name="location_permission_required">Location permission denied.</string>

@@ -1,19 +1,37 @@
 <resources>
-    <string name="app_name">Álcool ou Gasolina</string>
+    <string name="app_name">Álcool ou Gasolina?</string>
     <string name="welcome_title">Bem-vindo ao app Álcool ou Gasolina</string>
     <string name="welcome_image">Imagem de boas-vindas</string>
     <string name="hello_name">Olá, %1$s!</string>
     <string name="start_app">Entrar</string>
-    <string name="register_station">Cadastrar posto</string>
+    <string name="calculator_title">Compare os combustíveis em segundos</string>
+    <string name="calculator_subtitle">Digite os preços, escolha a regra de comparação e descubra qual opção compensa mais.</string>
+    <string name="extended_home_subtitle">Calcule a melhor opção, salve postos no aparelho e acesse os detalhes quando quiser comparar novamente.</string>
     <string name="station_name">Nome do posto</string>
+    <string name="station_name_optional">Nome do posto (opcional)</string>
     <string name="alcohol_price">Preço do álcool</string>
     <string name="gasoline_price">Preço da gasolina</string>
-    <string name="selected_fuel">Combustível selecionado: %1$s</string>
+    <string name="comparison_rule_title">Regra de comparação</string>
+    <string name="comparison_rule_body" formatted="false">Use o seletor para alternar entre a regra de 70% e 75%.</string>
+    <string name="rule_seventy" formatted="false">70%</string>
+    <string name="rule_seventy_five" formatted="false">75%</string>
+    <string name="current_rule_description">O valor escolhido fica salvo para a próxima vez que o app abrir.</string>
+    <string name="calculate">Calcular</string>
+    <string name="clear_fields">Limpar</string>
+    <string name="invalid_prices">Informe preços válidos para álcool e gasolina.</string>
+    <string name="best_option">Melhor abastecer com %1$s.</string>
+    <string name="best_option_for_station">No posto %2$s, vale mais abastecer com %1$s.</string>
+    <string name="calculation_result_title">Resultado</string>
+    <string name="result_ratio_summary">A relação entre os preços foi %1$s e a regra usada foi %2$s.</string>
     <string name="alcohol">Álcool</string>
     <string name="gasoline">Gasolina</string>
-    <string name="calculate">Calcular</string>
+    <string name="alcohol_value">Álcool: %1$s</string>
+    <string name="gasoline_value">Gasolina: %1$s</string>
+    <string name="register_station">Cadastrar posto</string>
     <string name="save_station">Salvar posto</string>
     <string name="saved_stations">Postos salvos</string>
+    <string name="saved_stations_help">Toque em um posto para abrir os detalhes, editar os valores, excluir o cadastro ou abrir a localização no mapa.</string>
+    <string name="station_card_best_option">Melhor opção com a regra atual: %1$s.</string>
     <string name="no_stations_saved">Nenhum posto salvo ainda.</string>
     <string name="station_saved">Posto salvo com sucesso.</string>
     <string name="station_updated">Posto atualizado com sucesso.</string>
@@ -21,16 +39,13 @@
     <string name="delete_station">Excluir posto</string>
     <string name="update_location">Atualizar localização</string>
     <string name="open_map">Abrir mapa</string>
+    <string name="map_unavailable">Nenhum aplicativo de mapa foi encontrado.</string>
     <string name="station_details">Detalhes do posto</string>
     <string name="station_not_found">Posto não encontrado.</string>
     <string name="back">Voltar</string>
     <string name="saved_at">Data da informação: %1$s</string>
     <string name="location_label">Localização: %1$s</string>
-    <string name="alcohol_value">Álcool: %1$s</string>
-    <string name="gasoline_value">Gasolina: %1$s</string>
     <string name="station_name_required">Informe o nome do posto.</string>
-    <string name="invalid_prices">Informe preços válidos para álcool e gasolina.</string>
-    <string name="best_option">Melhor abastecer com %1$s.</string>
     <string name="location_updated">Localização atualizada.</string>
     <string name="location_unavailable">Não foi possível obter a localização atual.</string>
     <string name="location_permission_required">Permissão de localização negada.</string>

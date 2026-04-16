@@ -1,3 +1,10 @@
+## Alunos:
+João Pedro Oliveira Lisboa 562410, 
+João Volney Grangeiro dos Santos 553481, 
+Antonio Pedro Cayky do Nascimento Pereira 567267.
+
+
+
 # Álcool ou Gasolina
 
 Aplicativo Android em Jetpack Compose para comparar preços de combustíveis e manter um cadastro local de postos.

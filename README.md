@@ -47,3 +47,19 @@ Tela de detalhes do posto
 Após clicar em abrir mapa
 
 <img width="244" height="532" alt="image" src="https://github.com/user-attachments/assets/4332de81-cf19-4222-858e-0de01310962d" />
+
+Tela de dark mode do aplicativo, além de mostrar a tela de edição com sucesso
+
+<img width="244" height="532" alt="image" src="https://github.com/user-attachments/assets/71c6314c-632e-4018-b70c-246609fa2552" />
+
+Após clicar para atualizar localização e abrir mapa
+
+<img width="244" height="532" alt="image" src="https://github.com/user-attachments/assets/8d2d891c-25e3-4922-96dc-72e33a24cb72" />
+
+<img width="244" height="532" alt="image" src="https://github.com/user-attachments/assets/cb6207c9-5273-42b4-ab44-0c5b4f7db16b" />
+
+Titulo do aplicativo e tela inicial após mudar a linguagem do celular para inglês
+
+<img width="222" height="165" alt="image" src="https://github.com/user-attachments/assets/262130ed-95b9-4c4c-ad69-0c2488089b3c" />
+
+<img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/22ec30f3-190e-4729-9fff-366c6b72c4cf" />

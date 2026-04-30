@@ -1,4 +1,4 @@
-package com.example.exemplosimplesdecompose.view
+package com.example.alcoolgasolina.view
 
 import android.content.Intent
 import android.net.Uri
@@ -19,8 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.exemplosimplesdecompose.data.Coordenadas
-import com.example.exemplosimplesdecompose.data.Posto
+import com.example.alcoolgasolina.data.Coordenadas
+import com.example.alcoolgasolina.data.Posto
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

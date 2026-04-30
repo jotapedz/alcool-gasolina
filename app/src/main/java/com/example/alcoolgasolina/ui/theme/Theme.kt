@@ -1,4 +1,4 @@
-package com.example.exemplosimplesdecompose.ui.theme
+package com.example.alcoolgasolina.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -48,7 +48,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun ExemploSimplesDeComposeTheme(
+fun AlcoolGasolinaTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit

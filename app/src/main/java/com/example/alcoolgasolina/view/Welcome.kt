@@ -1,4 +1,4 @@
-package com.example.exemplosimplesdecompose.view
+package com.example.alcoolgasolina.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -17,7 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.exemplosimplesdecompose.R
+import com.example.alcoolgasolina.R
 
 @Composable
 fun Welcome(navController: NavHostController) {

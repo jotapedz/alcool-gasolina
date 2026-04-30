@@ -1,4 +1,4 @@
-package com.example.exemplosimplesdecompose.data
+package com.example.alcoolgasolina.data
 
 data class Coordenadas(
 val latitude: Double,

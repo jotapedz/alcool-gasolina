@@ -1,4 +1,4 @@
-package com.example.exemplosimplesdecompose.view
+package com.example.alcoolgasolina.view
 
 import android.Manifest
 import android.content.ActivityNotFoundException
@@ -56,10 +56,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavHostController
-import com.example.exemplosimplesdecompose.R
-import com.example.exemplosimplesdecompose.data.Coordenadas
-import com.example.exemplosimplesdecompose.data.FuelPreferencesRepository
-import com.example.exemplosimplesdecompose.data.Posto
+import com.example.alcoolgasolina.R
+import com.example.alcoolgasolina.data.Coordenadas
+import com.example.alcoolgasolina.data.FuelPreferencesRepository
+import com.example.alcoolgasolina.data.Posto
 import java.text.DateFormat
 import java.text.NumberFormat
 import java.util.Date

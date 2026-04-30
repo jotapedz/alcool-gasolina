@@ -1,4 +1,4 @@
-package com.example.exemplosimplesdecompose
+package com.example.alcoolgasolina
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,10 +11,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.exemplosimplesdecompose.data.FuelPreferencesRepository
-import com.example.exemplosimplesdecompose.ui.theme.ExemploSimplesDeComposeTheme
-import com.example.exemplosimplesdecompose.view.FuelStationScreen
-import com.example.exemplosimplesdecompose.view.PostoDetailView
+import com.example.alcoolgasolina.data.FuelPreferencesRepository
+import com.example.alcoolgasolina.ui.theme.AlcoolGasolinaTheme
+import com.example.alcoolgasolina.view.FuelStationScreen
+import com.example.alcoolgasolina.view.PostoDetailView
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            ExemploSimplesDeComposeTheme {
+            AlcoolGasolinaTheme {
                 val navController: NavHostController = rememberNavController()
                 val repository = remember { FuelPreferencesRepository(applicationContext) }
 

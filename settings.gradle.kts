@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ExemploSimplesDeCompose"
+rootProject.name = "AlcoolGasolina"
 include(":app")
  

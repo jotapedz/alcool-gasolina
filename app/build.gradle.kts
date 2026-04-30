@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.exemplosimplesdecompose"
+    namespace = "com.example.alcoolgasolina"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.exemplosimplesdecompose"
+        applicationId = "com.example.alcoolgasolina"
         minSdk = 29
         targetSdk = 35
         versionCode = 1
